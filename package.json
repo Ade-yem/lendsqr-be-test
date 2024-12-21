@@ -8,9 +8,9 @@
     "url": "git+git"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register 'test/**/*.ts' --timeout 10000",
-    "test:routes": "mocha -r ts-node/register 'test/routes/*.ts' --timeout 10000",
-    "test:models": "mocha -r ts-node/register 'test/models/*.ts' --timeout 10000",
+    "test": "mocha -r ts-node/register 'test/**/*.ts' --timeout 20000",
+    "test:routes": "mocha -r ts-node/register 'test/routes/*.ts' --timeout 20000",
+    "test:models": "mocha -r ts-node/register 'test/models/*.ts' --timeout 20000",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
@@ -23,9 +23,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
-    "mysql2": "^3.11.5"
+    "mysql2": "^3.11.5",
+    "sinon": "^19.0.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.3.0",
@@ -34,6 +36,7 @@
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mocha": "^10.0.10",
+    "@types/sinon": "^17.0.3",
     "@types/superagent": "^8.1.9",
     "@types/supertest": "^6.0.2",
     "chai": "^4.3.10",

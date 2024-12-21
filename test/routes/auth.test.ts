@@ -18,16 +18,13 @@ describe("Test for the authentication routes and their controllers", () => {
   describe("/POST register", () => {
     before(async () => {
       process.env.NODE_ENV = "test";
-      await db.migrate.latest();
     });
 
     afterEach(async () => {
       await db(UserModel.getTableName).del();
     });
 
-    after(async () => {
-      await db.migrate.rollback();
-    });
+    after(async () => {});
     it("should register user", async () => {
       const res = await request(app).post("/api/auth/register").send(testUser);
       expect(res.status).to.eq(201);
@@ -49,17 +46,8 @@ describe("Test for the authentication routes and their controllers", () => {
       });
     });
 
-    before(async () => {
-      process.env.NODE_ENV = "test";
-      await db.migrate.latest();
-    });
-
     afterEach(async () => {
       await db(UserModel.getTableName).del();
-    });
-
-    after(async () => {
-      await db.migrate.rollback();
     });
 
     it("should login a user", async () => {
@@ -87,4 +75,5 @@ describe("Test for the authentication routes and their controllers", () => {
       expect(res.body.message).to.eq("User with email not found");
     });
   });
+
 });

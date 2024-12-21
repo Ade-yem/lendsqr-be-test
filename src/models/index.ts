@@ -42,7 +42,7 @@ export abstract class Model {
     id: number,
     data: Payload
   ): Promise<Result> {
-    const result = await this.table.where({ id }).update(data);
-    return await this.findOneById(result);
+    await this.table.where({ id }).update(data);
+    return await this.findOneById(id);
   }
 }

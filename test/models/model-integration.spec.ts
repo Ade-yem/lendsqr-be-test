@@ -6,6 +6,7 @@ const testTable = "test_table";
 interface Test {
   id: number;
   name: string;
+  class: string;
 }
 
 class TestModel extends Model {
@@ -19,6 +20,7 @@ describe("Base Model", () => {
     await db.schema.createTable(testTable, (table) => {
       table.increments("id").primary();
       table.string("name");
+      table.string("class");
     });
   });
 
@@ -31,16 +33,16 @@ describe("Base Model", () => {
   });
 
   it("should insert multiple rows", async () => {
-    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" });
-    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" });
-    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" });
-    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" });
+    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" , class: "jss2" });
+    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" , class: "jss2" });
+    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" , class: "jss2" });
+    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" , class: "jss2" });
     const results = await TestModel.findAll<Test>();
     expect(results.length).to.eq(4);
   });
 
   it("should insert a row and check for it", async () => {
-    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi" });
+    await TestModel.insert<Omit<Test, "id">>({ name: "Adeyemi", class: "jss2" });
     const results = await TestModel.findAll<Test>();
 
     expect(results.length).to.eq(1);
@@ -49,7 +51,7 @@ describe("Base Model", () => {
 
   it("should insert a row and fetch it by id", async () => {
     const { id } = await TestModel.insert<Omit<Test, "id">>({
-      name: "TestName",
+      name: "TestName", class: "jss2"
     });
     const result = await TestModel.findOneById<Test>(id);
 
@@ -58,17 +60,16 @@ describe("Base Model", () => {
 
   it("should create a row and return it", async () => {
     const result = await TestModel.create<Omit<Test, "id">, Test>({
-      name: "TestName",
+      name: "TestName", class: "jss2"
     });
-    console.log(result);
     expect(result?.name).to.equal("TestName");
   });
 
   it("should insert a row and update it", async () => {
     const { id } = await TestModel.insert<Omit<Test, "id">>({
-      name: "TestName",
+      name: "TestName", class: "jss2"
     });
-    const result = await TestModel.updateOneById<Omit<Test, "id">, Test>(id, {
+    const result = await TestModel.updateOneById<Omit<Test, "id" | "class">, Test>(id, {
       name: "Adeyemi",
     });
 
@@ -77,7 +78,7 @@ describe("Base Model", () => {
 
   it("should insert a row and delete it by id", async () => {
     const { id } = await TestModel.insert<Omit<Test, "id">>({
-      name: "TestName",
+      name: "TestName", class: "jss2"
     });
     const result = await TestModel.deleteOneById(id);
 

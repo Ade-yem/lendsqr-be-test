@@ -9,8 +9,6 @@ return knex.schema.createTable(tableName, (table: Knex.TableBuilder) => {
   table.string("to").notNullable();
   table.string("from").notNullable();
   table.float("amount");
-  table.integer("account_id").unsigned().notNullable();
-  table.foreign("account_id").references("id").inTable("users").onDelete("CASCADE")
   table.timestamps(true, true)
 })
 };

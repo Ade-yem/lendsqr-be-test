@@ -14,11 +14,6 @@ export interface createTokenData {
   userId: number;
 }
 
-export interface TokenData {
-  token: string;
-  userId: string;
-}
-
 export interface User {
   id: number;
   password: string;
@@ -40,5 +35,4 @@ export interface Transaction {
   from: string;
   to: string;
   amount: number;
-  account_id: number;
 }

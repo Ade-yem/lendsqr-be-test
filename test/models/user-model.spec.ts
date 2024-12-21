@@ -13,7 +13,6 @@ const testUser: Omit<User, "id"> = {
 describe("User Model", () => {
   before(async () => {
     process.env.NODE_ENV = "test";
-    await db.migrate.latest();
   });
 
   afterEach(async () => {
@@ -21,7 +20,6 @@ describe("User Model", () => {
   });
 
   after(async () => {
-    await db.migrate.rollback();
   });
 
   it("should insert and retrieve user", async () => {
@@ -38,4 +36,10 @@ describe("User Model", () => {
 
     expect(result.name).to.equal(testUser.name);
   });
+
+  it("should create a user and update it", async () => {
+    const { id } = await UserModel.insert<typeof testUser>(testUser);
+    const result = await UserModel.updateOneById(id, {name: "Adeyemi Adejumo"});
+    expect((result as User).name).to.equal("Adeyemi Adejumo"); 
+  })
 });

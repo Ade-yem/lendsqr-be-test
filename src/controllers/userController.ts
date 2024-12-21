@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import * as bcrypt from "bcryptjs";
 import { changeName, getUser, changePassword } from "../service/user";
-import CustomError from "../types/customError";
+import { dealWithError } from "../service/utils";
+import { validationResult } from "express-validator";
 
 export default class UserController {
   static async getUserData(req: Request, res: Response) {
@@ -10,50 +11,48 @@ export default class UserController {
       const user = await getUser(email);
       res.status(201).json({ message: "Fetch successful", user });
     } catch (error) {
-      if (error instanceof CustomError) {
-        res.status(error.code).json({ message: error.message });
-      } else if (error instanceof Error) {
-        res.status(500).json({ message: error.message });
-      }
+      dealWithError(error, res);
     }
   }
 
   static async updateName(req: Request, res: Response) {
+    const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          res.status(422).json({ errors: errors.array() });
+          return;
+        }
     const { name } = req.body;
-    const { id } = res.locals.userData;
+    const { userId } = res.locals.userData;
     try {
-      const user = await changeName(name, id);
+      const user = await changeName(name, userId);
       res.status(201).json({ message: "Name changed successfully", user });
     } catch (error) {
-      if (error instanceof CustomError) {
-        res.status(error.code).json({ message: error.message });
-      } else if (error instanceof Error) {
-        res.status(500).json({ message: error.message });
-      }
+      dealWithError(error, res);
     }
   }
   static async updatePassword(req: Request, res: Response) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
     const { password, newPassword } = req.body;
-    const { id, email } = res.locals.userData;
+    const { userId, email } = res.locals.userData;
     try {
       const existing = await getUser(email);
       if (!existing) {
         res.status(422).json({ message: "You do not have an account with us" });
-        return;
+      } else {
+        if (bcrypt.compareSync(password, existing.password)) {
+          const hash = bcrypt.hashSync(newPassword, 10);
+          const user = await changePassword(userId, hash);
+          res.status(201).json({ message: "Password change successful", user });
+        } else {
+          res.status(403).json({ message: "Incorrect password" });
+        }
       }
-      if (!bcrypt.compareSync(password, existing.password)) {
-        res.status(422).json({ message: "Incorrect password" });
-        return;
-      }
-      const hash = bcrypt.hashSync(newPassword, 10);
-      const user = await changePassword(id, hash);
-      res.status(201).json({ message: "Password change successful", user });
     } catch (error) {
-      if (error instanceof CustomError) {
-        res.status(error.code).json({ message: error.message });
-      } else if (error instanceof Error) {
-        res.status(500).json({ message: error.message });
-      }
+      dealWithError(error, res);
     }
   }
 }

@@ -9,13 +9,13 @@ export const getUser = async (email: string): Promise<User> => {
 };
 
 export const changeName = async (name: string, id: number): Promise<User> => {
-  const user = await UserModel.updateOneById<Omit<User, "id" | "password" | "email">, User>(id, { name });
+  const user = await UserModel.updateOneById<Partial<User>, User>(id, { name });
   if (!user) throw new CustomError(500, "Could not update user");
   return user;
 };
 
 export const changePassword = async (id: number, password: string): Promise<User> => {
-  const user = await UserModel.updateOneById<Omit<User, "id" | "name" | "email">, User>(id, { password });
+  const user = await UserModel.updateOneById<Partial<User>, User>(id, { password });
   if (!user) throw new CustomError(500, "Could not update user");
   return user;
 };

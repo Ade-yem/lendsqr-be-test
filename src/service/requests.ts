@@ -51,6 +51,5 @@ export const makeKarmaRequest = async(email: string): Promise<KarmaResponse> => 
   }
   const response = await makeHttpsRequest(options, "");
   if (response.status !== "success") throw new Error(response.message);
-  console.log("data, ", response.data)
   return response.data;
 }
