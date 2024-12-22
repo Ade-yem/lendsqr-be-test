@@ -52,7 +52,7 @@ The database design is such that a user can create multiple accounts linked with
 - `GET /api/account/all-transactions/:accountNumber`
 - `GET /api/account/filter-transactions/:accountNumber?key=?value=`
 
-| Method | Endpoint                                                    | Input                         | Output                            | Errors                                                                                                                                               |
+| Method | Endpoint                                                    | Request input                 | Response                          | Errors                                                                                                                                               |
 | ------ | ----------------------------------------------------------- | ----------------------------- | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | POST   | /api/auth/login                                             | `{email, password}`           | 200 `{message, user, token}`      | `401` - Invalid password, `401` - User with email not found                                                                                          |
 | POST   | /api/auth/register                                          | `{name, email, password}`     | 201 `{message, user, token}`      | `403` - You have been blacklisted `409` - User already exists                                                                                        |
@@ -78,16 +78,19 @@ curl -X GET http://localhost:5000/api/user/get-user -H "Authorization: <token>"
 
 #### Types
 
-- user 
+- user
+
 ```ts
-  interface User {
+interface User {
   id: number;
   password: string;
   email: string;
   name: string;
 }
 ```
+
 - account
+
 ```ts
 interface Account {
   id: number;
@@ -97,7 +100,9 @@ interface Account {
   user_id: number;
 }
 ```
+
 - transaction
+
 ```ts
 interface Transaction {
   id: number;
