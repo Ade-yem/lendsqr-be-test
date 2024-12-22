@@ -13,7 +13,7 @@
     "test:models": "mocha -r ts-node/register 'test/models/*.ts' --timeout 20000",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
-    "start": "knex migrate:latest && node dist/index.js"
+    "start": "knex migrate:latest && node dist/src/index.js"
   },
   "keywords": [],
   "author": "",
