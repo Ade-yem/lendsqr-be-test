@@ -29,7 +29,7 @@ const makeHttpsRequest = (options: https.RequestOptions, params: string): Promis
   });
 }
 
-type KarmaResponse = {
+type KarmaResponseData = {
   karma_identity: string;
   amount_in_contention: string;
   reason?: string;
@@ -37,6 +37,16 @@ type KarmaResponse = {
   karma_type: Object;
   karma_identity_type: Object;
   reporting_entity: Object;
+}
+
+type KarmaResponse = {
+  status: string;
+  message: string;
+  data: KarmaResponseData;
+  meta: {
+    cost: number;
+    balance: number;
+  }
 }
 
 export const makeKarmaRequest = async(email: string): Promise<KarmaResponse> => {
@@ -50,6 +60,5 @@ export const makeKarmaRequest = async(email: string): Promise<KarmaResponse> => 
     }
   }
   const response = await makeHttpsRequest(options, "");
-  if (response.status !== "success") throw new Error(response.message);
-  return response.data;
+  return response;
 }

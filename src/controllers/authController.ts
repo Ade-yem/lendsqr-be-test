@@ -1,13 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import {
-  login,
-  createToken,
-  register,
-} from "../service/auth";
+import { login, createToken, register } from "../service/auth";
 import jwt from "jsonwebtoken";
 import { makeKarmaRequest } from "../service/requests";
 import { dealWithError } from "../service/utils";
-import { validationResult } from 'express-validator';
+import { validationResult } from "express-validator";
 
 const secret = process.env.jwt_SECRET as string;
 
@@ -37,8 +33,12 @@ export default class AuthController {
     const { email, password, name } = req.body;
     try {
       const response = await makeKarmaRequest(email);
-      if (!response) {
-        res.status(403).json({message: "You have been blacklisted"});
+      if (
+        response.status === "success" &&
+        response.message === "Successful" &&
+        response.data.karma_identity
+      ) {
+        res.status(403).json({ message: "You have been blacklisted" });
         return;
       }
       const user = await register({ email, password, name });
