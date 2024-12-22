@@ -12,7 +12,7 @@
     "test:routes": "mocha -r ts-node/register 'test/routes/*.ts' --timeout 20000",
     "test:models": "mocha -r ts-node/register 'test/models/*.ts' --timeout 20000",
     "dev": "nodemon src/index.ts",
-    "build": "tsc",
+    "build": "tsc && knex migrate:latest",
     "start": "node dist/index.js"
   },
   "keywords": [],
