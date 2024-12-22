@@ -50,8 +50,6 @@ const makeKarmaRequest = (email) => __awaiter(void 0, void 0, void 0, function* 
         }
     };
     const response = yield makeHttpsRequest(options, "");
-    if (response.status !== "success")
-        throw new Error(response.message);
-    return response.data;
+    return response;
 });
 exports.makeKarmaRequest = makeKarmaRequest;

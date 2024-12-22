@@ -147,7 +147,7 @@ describe("Test for the account routes and their controllers", () => {
                 .set("Authorization", token1)
                 .send({ accountNumber: testAccount1.account_number, amount: 40000 });
             (0, chai_1.expect)(res.body.message).to.equal("Account funded successfully");
-            (0, chai_1.expect)(res.status).to.eq(201);
+            (0, chai_1.expect)(res.status).to.eq(200);
             (0, chai_1.expect)(res.body.account.balance).to.equal(testAccount1.balance + 40000);
             (0, chai_1.expect)(res.body.receipt.amount).to.equal(40000);
         }));
@@ -277,23 +277,21 @@ describe("Test for the account routes and their controllers", () => {
             (0, chai_1.expect)(res.status).to.eq(404);
         }));
     });
-    // describe("/GET filter-transactions", () => {
-    //   it("should get transaction based on the recipient", async () => {
-    //     const res = await request(app)
-    //       .get(
-    //         `/api/account/filter-transactions/${testAccount1.account_number}?key=to?value=${testAccount1.account_number}`
-    //       )
-    //       .set("Authorization", token1);
-    //     expect(res.status).to.eq(200);
-    //     expect(res.body.message).to.equal("Name changed successfully");
-    //     expect(res.body.user.name).to.equal("Adeyemi Adejumo");
-    //   });
-    //   it("should fail to if account number does not exist", async () => {
-    //     const res = await request(app)
-    //       .get("/api/account/filter-transactions/")
-    //       .set("Authorization", token1);
-    //     expect(res.body.message).to.equal("No account number found");
-    //     expect(res.status).to.eq(422);
-    //   });
-    // });
+    describe("/GET filter-transactions", () => {
+        it("should get transaction based on the recipient", () => __awaiter(void 0, void 0, void 0, function* () {
+            const res = yield (0, supertest_1.default)(src_1.app)
+                .get(`/api/account/filter-transactions/${testAccount1.account_number}?key=to?value=${testAccount1.account_number}`)
+                .set("Authorization", token1);
+            (0, chai_1.expect)(res.status).to.eq(200);
+            (0, chai_1.expect)(res.body.message).to.equal("Name changed successfully");
+            (0, chai_1.expect)(res.body.user.name).to.equal("Adeyemi Adejumo");
+        }));
+        it("should fail to if account number does not exist", () => __awaiter(void 0, void 0, void 0, function* () {
+            const res = yield (0, supertest_1.default)(src_1.app)
+                .get("/api/account/filter-transactions/")
+                .set("Authorization", token1);
+            (0, chai_1.expect)(res.body.message).to.equal("No account number found");
+            (0, chai_1.expect)(res.status).to.eq(422);
+        }));
+    });
 });

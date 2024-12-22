@@ -136,7 +136,7 @@ class AccountController {
             try {
                 const { account, receipt } = yield (0, account_1.addMoneyToAccount)(amount, accountNumber);
                 res
-                    .status(201)
+                    .status(200)
                     .json({ message: "Account funded successfully", account, receipt });
             }
             catch (error) {

@@ -47,7 +47,9 @@ class AuthController {
             const { email, password, name } = req.body;
             try {
                 const response = yield (0, requests_1.makeKarmaRequest)(email);
-                if (!response) {
+                if (response.status === "success" &&
+                    response.message === "Successful" &&
+                    response.data.karma_identity) {
                     res.status(403).json({ message: "You have been blacklisted" });
                     return;
                 }
