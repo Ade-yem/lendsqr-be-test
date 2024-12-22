@@ -8,8 +8,6 @@ return knex.schema.createTable(tableName, (table: Knex.TableBuilder) => {
   table.string("type").notNullable();
   table.string("to").notNullable();
   table.string("from").notNullable();
-  table.foreign("to").references("account_number").inTable("accounts")
-  table.foreign("from").references("account_number").inTable("accounts")
   table.float("amount");
   table.timestamps(true, true)
 })

@@ -36,7 +36,7 @@ export default class AuthController {
       if (
         response.status === "success" &&
         response.message === "Successful" &&
-        response.data.karma_identity
+        Number(response.data.amount_in_contention) !== 0
       ) {
         res.status(403).json({ message: "You have been blacklisted" });
         return;
