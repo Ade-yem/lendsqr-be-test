@@ -9,11 +9,11 @@ export default {
   development: {
     client: 'mysql2',
     connection: {
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DB_NAME,
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT
+      user: process.env.DB_USER as string,
+      password: process.env.DB_PASSWORD as string,
+      database: process.env.DB_DB_NAME as string,
+      host: process.env.DB_HOST as string,
+      port: Number(process.env.DB_PORT),
     },
     migrations: {
       directory: 'src/db/migrations',
