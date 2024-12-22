@@ -36,7 +36,7 @@ export default {
   },
 
   staging: {
-    client: 'mysql',
+    client: 'mysql2',
     connection: {
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
@@ -56,7 +56,7 @@ export default {
   },
 
   production: {
-    client: 'mysql',
+    client: 'mysql2',
     connection: {
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
