@@ -138,7 +138,7 @@ export class AccountController {
         accountNumber
       );
       res
-        .status(201)
+        .status(200)
         .json({ message: "Account funded successfully", account, receipt });
     } catch (error) {
       dealWithError(error, res);

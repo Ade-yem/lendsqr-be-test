@@ -59,7 +59,7 @@ describe("Test for the user routes and their controllers", () => {
         .post("/api/user/change-name")
         .set("Authorization", token)
         .send({ name: "Adeyemi Adejumo" });
-      // expect(res.status).to.eq(201);
+      expect(res.status).to.eq(201);
       expect(res.body.message).to.equal("Name changed successfully");
       expect(res.body.user.name).to.equal("Adeyemi Adejumo");
     });

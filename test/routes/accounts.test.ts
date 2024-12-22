@@ -157,7 +157,7 @@ describe("Test for the account routes and their controllers", () => {
         .set("Authorization", token1)
         .send({ accountNumber: testAccount1.account_number, amount: 40000 });
         expect(res.body.message).to.equal("Account funded successfully");
-      expect(res.status).to.eq(201);
+      expect(res.status).to.eq(200);
       expect(res.body.account.balance).to.equal(
         (testAccount1.balance as number) + 40000
       );
@@ -315,23 +315,23 @@ describe("Test for the account routes and their controllers", () => {
       expect(res.status).to.eq(404);
     });
   });
-  // describe("/GET filter-transactions", () => {
-  //   it("should get transaction based on the recipient", async () => {
-  //     const res = await request(app)
-  //       .get(
-  //         `/api/account/filter-transactions/${testAccount1.account_number}?key=to?value=${testAccount1.account_number}`
-  //       )
-  //       .set("Authorization", token1);
-  //     expect(res.status).to.eq(200);
-  //     expect(res.body.message).to.equal("Name changed successfully");
-  //     expect(res.body.user.name).to.equal("Adeyemi Adejumo");
-  //   });
-  //   it("should fail to if account number does not exist", async () => {
-  //     const res = await request(app)
-  //       .get("/api/account/filter-transactions/")
-  //       .set("Authorization", token1);
-  //     expect(res.body.message).to.equal("No account number found");
-  //     expect(res.status).to.eq(422);
-  //   });
-  // });
+  describe("/GET filter-transactions", () => {
+    it("should get transaction based on the recipient", async () => {
+      const res = await request(app)
+        .get(
+          `/api/account/filter-transactions/${testAccount1.account_number}?key=to?value=${testAccount1.account_number}`
+        )
+        .set("Authorization", token1);
+      expect(res.status).to.eq(200);
+      expect(res.body.message).to.equal("Name changed successfully");
+      expect(res.body.user.name).to.equal("Adeyemi Adejumo");
+    });
+    it("should fail to if account number does not exist", async () => {
+      const res = await request(app)
+        .get("/api/account/filter-transactions/")
+        .set("Authorization", token1);
+      expect(res.body.message).to.equal("No account number found");
+      expect(res.status).to.eq(422);
+    });
+  });
 });

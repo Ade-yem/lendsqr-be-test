@@ -1,7 +1,6 @@
 import { Router} from "express";
 import { AccountController } from "../controllers/accountController";
 import AuthController from "../controllers/authController";
-import { validateDeleteAccount } from "../validators/accountValidators";
 
 const accountRouter = Router();
 accountRouter.get("/get-account/:id", AuthController.verifyToken, AccountController.getAccount);
